@@ -1,0 +1,208 @@
+@page "/missionboard/{name?}"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
+@if (!person.Updated)
+{
+    <h1>Waiting For Host</h1>
+
+}
+else
+{
+    <div id="mission_board">
+
+        @if (selectedMission != null)
+        {
+            <MissionDetail @bind-Mission="selectedMission"></MissionDetail>
+        }
+        else
+        {
+            <table class="table caption-top">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Caller ID</th>
+                        <th scope="col">Order Time</th>
+                        <th scope="col">Status</th>
+                        @if (person.Role == PersonRole.Admin)
+                        {
+                            <th scope="col">Action</th>
+                        }
+                        <th scope="col">Sub</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Mission m in missions)
+                    {
+                        <tr class="@m.ClassName pointer-event" @onmouseover="() => MouseOver(m)" @onmouseout="() => MouseOut(m)">
+                            <td>@m.Name</td>
+                            <td>@m.StartTime.ToString("HH:mm:ss")</td>
+                            <td>@m.Status.ToString()</td>
+                            @if (person.Role == PersonRole.Admin)
+                            {
+                                <td class="icon" @onclick="() => DoneMission(m)">
+                                    @if (m.Status == Status.Done)
+                                    {
+                                        <span class="oi oi-task"></span>
+                                    }
+                                    else {
+                                        <span class="oi oi-clock"></span>
+                                    }
+                                </td>
+                            }
+                            <td @onclick="() => ShowDetail(m)" class="icon">
+                                <span class="oi oi-caret-right"></span>
+                           
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            @if (person.Role == PersonRole.Admin)
+            {
+                <button type="button" @onclick="AddMission" class="btn btn-success">Generate New Mission</button>
+            }
+
+        }
+    </div>
+}
+@code {
+    private List<Mission> missions = new List<Mission>();
+    private Mission? selectedMission;
+    private Person person = new Person("Guest", PersonRole.Adventurer);
+    [Parameter]
+    public string? Name { get; set; }
+    private HubConnection? hubConnection;
+
+
+    private void MouseOver(Mission m)
+    {
+        m.ClassName = "table-active";
+    }
+    private void MouseOut(Mission m)
+    {
+        m.ClassName = "";
+    }
+
+    private int GenerateRandomNo()
+    {
+        int _min = 1000;
+        int _max = 9999;
+        Random _rdm = new Random();
+        return _rdm.Next(_min, _max);
+    }
+
+
+    private async Task AddMission()
+    {
+        Mission newMission = new Mission()
+            {
+                Name = "" + GenerateRandomNo(),
+                Id = missions.Count(),
+                StartTime = DateTime.Now
+
+            };
+        if (hubConnection is not null)
+        {
+
+            HubTUCarrier carrier = new HubTUCarrier
+                {
+                    Type = CarrierType.Add,
+                    Parcel = newMission
+                };
+            await hubConnection.SendAsync("ToOthers", carrier);
+        }
+        missions.Add(newMission);
+    }
+
+    private async void DoneMission(Mission m)
+    {
+        m.Status = m.Status == Status.Done ? Status.Preparing : Status.Done;
+        if (hubConnection is not null)
+        {
+
+            HubTUCarrier carrier = new HubTUCarrier
+                {
+                    Type = CarrierType.Update,
+                    Parcel = m
+                };
+            await hubConnection.SendAsync("ToOthers", carrier);
+        }
+    }
+    private void ShowDetail(Mission m)
+    {
+        selectedMission = m;
+        m.ClassName = "";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+            .Build();
+
+        hubConnection.On<HubTUCarrier>("MailBox", async (pack) =>
+        {
+            var result = pack.Receive(missions, person);
+            if (result != null)
+            {
+                await hubConnection.SendAsync("ToCient", result);
+            }
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+
+        if (Name != null)
+        {
+            person = new Person(Name, PersonRole.Admin);
+            await OpeningBoardcast();
+        }
+        else
+        {
+            person = new Person("Guest", PersonRole.Adventurer);
+            await RequestMissions();
+        }
+        StateHasChanged();
+
+    }
+
+    private async Task RequestMissions()
+    {
+        if (hubConnection is not null)
+        {
+            HubTUCarrier carrier = new HubTUCarrier
+                {
+                    Type = CarrierType.Request,
+                    Person = person,
+                };
+            await hubConnection.SendAsync("ToOthers", carrier);
+        }
+    }
+
+    private async Task OpeningBoardcast()
+    {
+        if (hubConnection is not null)
+        {
+            HubTUCarrier carrier = new HubTUCarrier
+                {
+                    Type = CarrierType.OpeningBoardcast,
+                    Person = person,
+                };
+            await hubConnection.SendAsync("ToOthers", carrier);
+        }
+    }
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+}

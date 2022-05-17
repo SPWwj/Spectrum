@@ -1,0 +1,53 @@
+﻿@using System.Web
+@*@using Spectrum.Shared.Services.Email
+@inject IEmailService EmailService*@
+<div>
+    <div class="property-card mx-auto">
+        <div class="property-image">
+            <div class="property-image-title">
+                <h5> Caller ID: @Mission!.Name </h5>
+                <p>Status: @Mission.Status</p>
+                <input @bind="emailAddress" />
+                <button>Send Mail</button>
+
+            </div>
+        </div>
+@*        <div class="property-description">
+            <h5> Caller ID: @Mission.Name </h5>
+            <span>Status: @Mission.Status</span>
+            <p>Order Time: @Mission.StartTime</p>
+            <input @bind="emailAddress" />
+            <button @onclick="SendMail">Send Mail</button>
+        </div>*@
+        <a @onclick="ExitMission">
+            <div class="property-social-icons">
+                <span class="oi oi-x"></span>
+            </div>
+        </a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Mission? Mission { get; set; }
+    [Parameter]
+
+    public EventCallback<Mission> MissionChanged { get; set; }
+    private string emailAddress = "";
+    //private async void SendMail()
+    //{
+    //    if (EmailService.IsValidEmail(emailAddress))
+    //    {
+    //        await EmailService.SendEmailAsync(emailAddress, "Hello From Spectrum",
+    //        new EventModel { Id = 1, Subject = "Testing", StartTime = DateTime.Now, EndTime = DateTime.Now, EmployeeId = 1 });
+    //    }
+    //}
+
+    private void ExitMission()
+    {
+        Mission = null;
+        MissionChanged.InvokeAsync(Mission);
+
+    }
+
+}
