@@ -5,8 +5,10 @@ using Spectrum.Server.Data;
 using Spectrum.Server.Hubs;
 using Spectrum.Server.Models;
 using Spectrum.Shared.Services.Email;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("SpectrumConnection");
