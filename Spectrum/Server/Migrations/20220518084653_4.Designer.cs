@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spectrum.Server.Data;
 
@@ -11,9 +12,10 @@ using Spectrum.Server.Data;
 namespace Spectrum.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220518084653_4")]
+    partial class _4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,45 +370,6 @@ namespace Spectrum.Server.Migrations
                     b.ToTable("SpectrumUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Spectrum.Server.Models.Orders", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("SpectrumMissionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("SpectrumMissionId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Spectrum.Server.Models.ProductCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductCategory");
-                });
-
             modelBuilder.Entity("Spectrum.Server.Models.SpectrumMission", b =>
                 {
                     b.Property<int>("Id")
@@ -466,48 +429,6 @@ namespace Spectrum.Server.Migrations
                     b.ToTable("SpectrumPortal");
                 });
 
-            modelBuilder.Entity("Spectrum.Server.Models.SpectrumProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Offer")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Special")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("SpectrumPortalId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductCategoryId");
-
-                    b.HasIndex("SpectrumPortalId");
-
-                    b.ToTable("SpectrumProduct");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -559,25 +480,6 @@ namespace Spectrum.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Spectrum.Server.Models.Orders", b =>
-                {
-                    b.HasOne("Spectrum.Server.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Orders")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Spectrum.Server.Models.SpectrumMission", "SpectrumMission")
-                        .WithMany()
-                        .HasForeignKey("SpectrumMissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("SpectrumMission");
-                });
-
             modelBuilder.Entity("Spectrum.Server.Models.SpectrumMission", b =>
                 {
                     b.HasOne("Spectrum.Server.Models.SpectrumPortal", "SpectrumPortal")
@@ -596,33 +498,14 @@ namespace Spectrum.Server.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("Spectrum.Server.Models.SpectrumProduct", b =>
-                {
-                    b.HasOne("Spectrum.Server.Models.ProductCategory", "ProductCategory")
-                        .WithMany()
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Spectrum.Server.Models.SpectrumPortal", null)
-                        .WithMany("SpectrumProducts")
-                        .HasForeignKey("SpectrumPortalId");
-
-                    b.Navigation("ProductCategory");
-                });
-
             modelBuilder.Entity("Spectrum.Server.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Orders");
-
                     b.Navigation("SpectrumPortals");
                 });
 
             modelBuilder.Entity("Spectrum.Server.Models.SpectrumPortal", b =>
                 {
                     b.Navigation("Missions");
-
-                    b.Navigation("SpectrumProducts");
                 });
 #pragma warning restore 612, 618
         }
