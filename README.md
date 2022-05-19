@@ -14,7 +14,7 @@ Problem:
 # Qualifications
 1) Wei Wen Jie 
     1. Background: Computer Science
-    2. Experience: CS1011S, CS2030S
+    2. Experience: CS1011S, CS1231S, CS2030S, CS2100
     3. Testimonial: Singtel Internship (automation), National NAPROCK Competition, MAPP design contest by Singapore Polytechnic, AWS IoT App challenge
 2) Gerald Koh Kheng Guan
     1. Background: Information Security
