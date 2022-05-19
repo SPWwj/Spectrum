@@ -49,7 +49,7 @@ After M1:
  4) Documentation
  5) Improve on CSS design
 
-# FlowChart
+# Flowchart
 ![SpectrumFlowchart drawio](https://user-images.githubusercontent.com/30100720/169250297-8954bd90-5962-474c-b427-94474153f1bb.png)
 
 # Database schema (Version 0)
