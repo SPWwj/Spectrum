@@ -29,7 +29,7 @@ Azure:
   4) Documentation
 
 # FlowChart
-![Flowchart](https://user-images.githubusercontent.com/30100720/169247882-726e4d17-dbc8-4065-8ca2-1347e38662e6.png)
+![SpectrumFlowchart drawio](https://user-images.githubusercontent.com/30100720/169249032-e065c39b-90a0-4251-9db7-aad5ba0ba6ef.png)
 
 # Database schema (Version 0)
 ![image](https://user-images.githubusercontent.com/30100720/169005025-e57eb7d3-cbe4-4945-ae9f-2e87a2af4a91.png)
