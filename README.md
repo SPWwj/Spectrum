@@ -28,6 +28,8 @@ Azure:
   3) Testing
   4) Documentation
 
+# FlowChart
+![Flowchart](https://user-images.githubusercontent.com/30100720/169247304-d12548fe-96cf-4432-bfbc-dbf9e7801bb4.png)
 
 # Database schema (Version 0)
 ![image](https://user-images.githubusercontent.com/30100720/169005025-e57eb7d3-cbe4-4945-ae9f-2e87a2af4a91.png)
