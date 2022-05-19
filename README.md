@@ -2,7 +2,7 @@
 Objective:
 * Eliminate the need of Pager used by restaurants and provide free notification service to restaurants, Food courts and hawker via the use of smartphone.
 
-# Proposed Level of Achievement: 
+# Proposed Level of Achievement
 Apollo 11 
 
 # Motivation
