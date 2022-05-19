@@ -2,6 +2,9 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager NavigationManager
 @implements IAsyncDisposable
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
 @if (!person.Updated)
 {
     <h1>Waiting For Host</h1>
@@ -44,14 +47,15 @@ else
                                     {
                                         <span class="oi oi-task"></span>
                                     }
-                                    else {
+                                    else
+                                    {
                                         <span class="oi oi-clock"></span>
                                     }
                                 </td>
                             }
                             <td @onclick="() => ShowDetail(m)" class="icon">
                                 <span class="oi oi-caret-right"></span>
-                           
+
                             </td>
 
                         </tr>
@@ -68,6 +72,8 @@ else
     </div>
 }
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
     private List<Mission> missions = new List<Mission>();
     private Mission? selectedMission;
     private Person person = new Person("Guest", PersonRole.Adventurer);
@@ -157,6 +163,12 @@ else
 
         if (Name != null)
         {
+            var user = (await authenticationStateTask!).User;
+
+            if (user.IsInRole("admin"))
+            {
+                // Perform an action only available to users in the 'admin' role.
+            }
             person = new Person(Name, PersonRole.Admin);
             await OpeningBoardcast();
         }
