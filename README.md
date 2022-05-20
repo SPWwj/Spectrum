@@ -1,6 +1,7 @@
 # Spectrum
 Objective:
 * Eliminate the need of Pager used by restaurants and provide free notification service to restaurants, Food courts and hawker via the use of smartphone.
+* Can be sustain sustain through non-distructive adv from the subscription notification page.
 
 # Proposed Level of Achievement
 Apollo 11 
@@ -41,6 +42,7 @@ Technologies:
 Aim for M1:
  1) Notification 
  2) Shop Orders
+ 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update
 
 After M1:
  1) Pattern Recognition 
