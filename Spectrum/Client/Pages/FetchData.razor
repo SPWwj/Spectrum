@@ -11,47 +11,47 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+@if (applicationUser == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <h1>xGreeting @applicationUser.UserName</h1>
+        
+    <h1>Your Port Limit: @applicationUser.SpectrumPortalLimit </h1>
+    @if (applicationUser.SpectrumPortal != null)
+    {
+        @foreach (var v in applicationUser.SpectrumPortal!)
+        {
+            <h1>@v.Name</h1>
+            <h1>@v.Id</h1>
+        }
+
+    }
+    <h1></h1>
+    <h1></h1>
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private ApplicationUser? applicationUser;
+    async Task<ApplicationUser> LoadApplicationUser()
+    {
+        var applicationUser =  new ApplicationUser();
+        try
+        {
+            applicationUser = await Http.GetFromJsonAsync<ApplicationUser>("TenantInfo");
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        return applicationUser!;
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
+
+        applicationUser = await LoadApplicationUser();
     }
 }

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Spectrum.Server.Data;
 using Spectrum.Server.Hubs;
-using Spectrum.Server.Models;
 using Spectrum.Shared.Services.Email;
 using Azure.Identity;
+using Spectrum.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

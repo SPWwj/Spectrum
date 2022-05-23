@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Spectrum.Server.Models;
+using Spectrum.Shared.Models;
 
 namespace Spectrum.Server.Data
 {
@@ -53,6 +53,9 @@ namespace Spectrum.Server.Data
             {
                 b.ToTable("SpectrumUserRoles");
             });
+
+ 
+
         }
     }
 }
