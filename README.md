@@ -8,7 +8,7 @@ Apollo 11
 
 # Motivation
 Problem:
-1) Long waiting Time when purchaing the food
+1) Long Waiting Time when purchasing the food
 2) Life can be more meaningful instead of queuing for your order.
 3) Not all Shops have Pager System.
 
