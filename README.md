@@ -6,6 +6,9 @@ Objective:
 # Proposed Level of Achievement
 Apollo 11 
 
+# Demo Website
+https://spectrumx.azurewebsites.net/
+
 # Motivation
 Problem:
 1) Long Waiting Time when purchasing the food
