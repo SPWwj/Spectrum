@@ -1,7 +1,7 @@
 # Spectrum
 Objective:
 * Eliminate the need of Pager used by restaurants and provide free notification service to restaurants, Food courts and hawker via the use of smartphone.
-* Can be sustain through non-distructive adv from the subscription notification page.
+* Can be sustain through non-distruptive advertisement from the subscription notification page.
 
 # Proposed Level of Achievement
 Apollo 11 
