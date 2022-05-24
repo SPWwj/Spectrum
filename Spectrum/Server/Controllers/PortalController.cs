@@ -54,9 +54,6 @@ namespace Spectrum.Server.Controllers
             try
             {
                 string userId = GetUserId();
-                //var user = await _db.SpectrumPortal.Where(x => x.Id == userId)
-                //    .FirstOrDefaultAsync();
-                //spectrumPortal.ApplicationUser = user!;
                 spectrumPortal.ApplicationUserId = userId;
                 spectrumPortal.Id = Guid.NewGuid().ToString();
                 
