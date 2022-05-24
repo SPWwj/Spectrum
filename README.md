@@ -45,7 +45,7 @@ Technologies:
 Aim for M1:
  1) Notification 
  2) Shop Orders
- 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update
+ 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate using phone app
 
 After M1:
  1) Pattern Recognition 
