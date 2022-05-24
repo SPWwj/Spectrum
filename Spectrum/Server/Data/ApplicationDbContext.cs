@@ -1,4 +1,6 @@
-﻿using Duende.IdentityServer.EntityFramework.Options;
+﻿using Duende.IdentityServer.EntityFramework.Entities;
+using Duende.IdentityServer.EntityFramework.Options;
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,15 @@ namespace Spectrum.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+
+        public virtual DbSet<Order> Order { get; set; } = null!;
+        public virtual DbSet<ProductCategory> ProductCategory { get; set; } = null!;
+        public virtual DbSet<SpectrumMission> SpectrumMission { get; set; } = null!;
+        public virtual DbSet<SpectrumPortal> SpectrumPortal { get; set; } = null!;
+        public virtual DbSet<SpectrumProduct> SpectrumProduct { get; set; } = null!;
+        public virtual DbSet<ApplicationUser> SpectrumUsers { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,7 +65,7 @@ namespace Spectrum.Server.Data
                 b.ToTable("SpectrumUserRoles");
             });
 
- 
+
 
         }
     }

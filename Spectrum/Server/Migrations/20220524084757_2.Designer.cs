@@ -12,8 +12,8 @@ using Spectrum.Server.Data;
 namespace Spectrum.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220523064646_0")]
-    partial class _0
+    [Migration("20220524084757_2")]
+    partial class _2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -372,15 +372,13 @@ namespace Spectrum.Server.Migrations
 
             modelBuilder.Entity("Spectrum.Shared.Models.Order", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("SpectrumMissionId")
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("SpectrumMissionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -426,8 +424,8 @@ namespace Spectrum.Server.Migrations
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SpectrumPortalId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SpectrumPortalId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
@@ -436,8 +434,9 @@ namespace Spectrum.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UUID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UUID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -448,17 +447,18 @@ namespace Spectrum.Server.Migrations
 
             modelBuilder.Entity("Spectrum.Shared.Models.SpectrumPortal", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PortalAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -498,8 +498,8 @@ namespace Spectrum.Server.Migrations
                     b.Property<bool>("Special")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("SpectrumPortalId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SpectrumPortalId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -565,15 +565,11 @@ namespace Spectrum.Server.Migrations
                 {
                     b.HasOne("Spectrum.Shared.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Order")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("Spectrum.Shared.Models.SpectrumMission", "SpectrumMission")
                         .WithMany()
-                        .HasForeignKey("SpectrumMissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpectrumMissionId");
 
                     b.Navigation("ApplicationUser");
 

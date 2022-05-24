@@ -7,15 +7,15 @@ namespace Spectrum.Shared.Models
     {
 
         public int Name { get; set; }
-        public Guid UUID { get; set; }
+        public string UUID { get; set; } = string.Empty;
         public int Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Status { get; set; } = string.Empty;
         public string? Remark { get; set; }
 
-        public Guid? SpectrumPortalId { get; set; }
-        [JsonIgnore] public virtual SpectrumPortal SpectrumPortal { get; set; } = new SpectrumPortal();
+        public string? SpectrumPortalId { get; set; }
+        [JsonIgnore] public virtual SpectrumPortal? SpectrumPortal { get; set; }
     }
 
 }

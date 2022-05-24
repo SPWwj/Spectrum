@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spectrum.Server.Data;
 
@@ -11,9 +12,10 @@ using Spectrum.Server.Data;
 namespace Spectrum.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220524081432_0")]
+    partial class _0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -374,9 +376,10 @@ namespace Spectrum.Server.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("SpectrumMissionId")
+                    b.Property<int>("SpectrumMissionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -449,6 +452,7 @@ namespace Spectrum.Server.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -563,11 +567,15 @@ namespace Spectrum.Server.Migrations
                 {
                     b.HasOne("Spectrum.Shared.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Order")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Spectrum.Shared.Models.SpectrumMission", "SpectrumMission")
                         .WithMany()
-                        .HasForeignKey("SpectrumMissionId");
+                        .HasForeignKey("SpectrumMissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
 
@@ -587,7 +595,9 @@ namespace Spectrum.Server.Migrations
                 {
                     b.HasOne("Spectrum.Shared.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("SpectrumPortal")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
                 });

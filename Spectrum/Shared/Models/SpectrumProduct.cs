@@ -13,6 +13,6 @@ namespace Spectrum.Shared.Models
         public double Offer { get; set; }
         public int? ProductCategoryId { get; set; }
 
-        [JsonIgnore] public virtual ProductCategory ProductCategory { get; set; } = new ProductCategory();
+        [JsonIgnore] public virtual ProductCategory? ProductCategory { get; set; } 
     }
 }

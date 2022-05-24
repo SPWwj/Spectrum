@@ -144,10 +144,10 @@ namespace Spectrum.Server.Migrations
                 name: "SpectrumPortal",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PortalAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PortalAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,7 +156,8 @@ namespace Spectrum.Server.Migrations
                         name: "FK_SpectrumPortal_SpectrumUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "SpectrumUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,12 +252,12 @@ namespace Spectrum.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<int>(type: "int", nullable: false),
-                    UUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UUID = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpectrumPortalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SpectrumPortalId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -281,7 +282,7 @@ namespace Spectrum.Server.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Offer = table.Column<double>(type: "float", nullable: false),
                     ProductCategoryId = table.Column<int>(type: "int", nullable: true),
-                    SpectrumPortalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SpectrumPortalId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,7 +303,7 @@ namespace Spectrum.Server.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SpectrumMissionId = table.Column<int>(type: "int", nullable: false)
                 },

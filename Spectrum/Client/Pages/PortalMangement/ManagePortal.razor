@@ -1,0 +1,23 @@
+﻿@page "/portal/manage/{portalId}"
+@using Syncfusion.Blazor.BarcodeGenerator
+@inject NavigationManager NavigationManager
+
+<SfQRCodeGenerator Width="200px" Height="150px" Value="@PortalUrl">
+    <QRCodeGeneratorDisplayText Text="Client Portal"></QRCodeGeneratorDisplayText>
+</SfQRCodeGenerator>
+<h3>ManagePortal</h3>
+
+@portalId
+
+@code {
+    [Parameter]
+    public string? portalId { get; set; }
+
+    public string PortalUrl { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //There is non need to request from server, just do it from local
+        PortalUrl = NavigationManager.ToAbsoluteUri("missionboard").ToString();
+    }
+}

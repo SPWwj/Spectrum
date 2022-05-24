@@ -1,0 +1,66 @@
+﻿@page "/portal/delete/{portalId}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Spectrum.Shared
+@attribute [Authorize]
+
+<h2>Delete Portal</h2>
+<br />
+<div class="form-group">
+    <h4>Do you want to delete this Portal?</h4>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>@portal!.Name</td>
+            </tr>
+            <tr>
+                <td>Portal Address</td>
+                <td>@portal.PortalAddress</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <input type="submit" value="Delete" @onclick="(async () => await RemovePortal(portal.Id))" class="btn btn-danger" />
+    <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+</div>
+@code {
+    [Parameter]
+    public string? portalId { get; set; }
+    SpectrumPortal? portal = new();
+    protected override async Task OnInitializedAsync()
+    {
+        //There is non need to request from server, just do it from local
+        applicationUser = await LoadApplicationUser();
+        portal = applicationUser.SpectrumPortal.First(x => x.Id == portalId);
+    }
+    protected async Task RemovePortal(string portalId)
+    {
+        await Http.DeleteAsync("/api/portal/" + portalId);
+        NavigationManager.NavigateTo("/portal");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/portal");
+    }
+
+
+    protected ApplicationUser applicationUser = new();
+
+    async Task<ApplicationUser> LoadApplicationUser()
+    {
+        var applicationUser = new ApplicationUser();
+        try
+        {
+            applicationUser = await Http.GetFromJsonAsync<ApplicationUser>("/api/portal");
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        return applicationUser!;
+    }
+}

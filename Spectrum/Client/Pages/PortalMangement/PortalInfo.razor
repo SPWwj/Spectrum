@@ -1,0 +1,125 @@
+﻿@page "/portal"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Spectrum.Shared
+@attribute [Authorize]
+@inject HttpClient Http
+
+@if (applicationUser == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Greetings: @applicationUser.UserName</h1>
+    <p>You Portal Credit Is: @applicationUser.SpectrumPortalLimit</p>
+    <div class="row">
+        <div class="col-md-6">
+            <a href='/portal/add' class="btn btn-primary" role="button">
+                <i class="fas fa-user-plus"></i>
+                Add Portal
+            </a>
+        </div>
+        <div class="input-group col">
+            <input type="text" class="form-control" placeholder="Search Portal by name"
+               @bind="SearchString" @onchange="ResetSearch" @bind:event="oninput" @onkeyup="FilterPortal" />
+            @if (SearchString.Length > 0)
+            {
+                <div class="input-group-append">
+                    <button class="btn btn-danger" @onclick="ResetSearch">
+                        Clear
+                    </button>
+                </div>
+            }
+
+        </div>
+    
+    </div>
+    <br />
+    @if (applicationUser.SpectrumPortal == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table table-striped align-middle table-bordered">
+            <thead class="table-success">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (portal, index) in searchPortalData
+               .Select((portal, i) => (portal, i)))
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@portal.Name</td>
+                        <td>@portal.PortalAddress</td>
+                        <td>
+                            <a href='/portal/Manage/@portal.Id' class="btn btn-outline-danger" role="button">
+                                Manage
+                            </a>
+                            <a href='/portal/edit/@portal.Id' class="btn btn-outline-dark" role="button">
+                                Edit
+                            </a>
+                            <a href='/portal/delete/@portal.Id' class="btn btn-outline-danger" role="button">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+}
+@code {
+    protected ApplicationUser applicationUser = new();
+    protected List<SpectrumPortal> searchPortalData = new();
+    protected string SearchString { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        applicationUser = await LoadApplicationUser();
+    }
+
+    async Task<ApplicationUser> LoadApplicationUser()
+    {
+        var applicationUser = new ApplicationUser();
+        try
+        {
+            applicationUser = await Http.GetFromJsonAsync<ApplicationUser>("/api/portal");
+            searchPortalData = applicationUser!.SpectrumPortal.ToList();
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        return applicationUser!;
+    }
+
+    protected void FilterPortal()
+    {
+        if (!string.IsNullOrEmpty(SearchString))
+        {
+            searchPortalData = applicationUser.SpectrumPortal
+                .Where(x => x.Name!.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                .ToList();
+        }
+        else
+        {
+            searchPortalData = applicationUser.SpectrumPortal.ToList();
+        }
+    }
+
+    public void ResetSearch()
+    {
+        SearchString = string.Empty;
+        searchPortalData = applicationUser.SpectrumPortal.ToList();
+    }
+}

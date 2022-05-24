@@ -10,13 +10,13 @@ namespace Spectrum.Shared.Models
             SpectrumProduct = new HashSet<SpectrumProduct>();
         }
 
-        public Guid Id { get; set; }
-        public string? Name { get; set; }
-        public string? PortalAddress { get; set; }
-        public string? ApplicationUserId { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty ;
+        public string PortalAddress { get; set; } = string.Empty;
+        public string? ApplicationUserId { get; set; } 
 
 
-        [JsonIgnore] public virtual ApplicationUser ApplicationUser { get; set; } = new ApplicationUser();
+        [JsonIgnore] public virtual ApplicationUser? ApplicationUser { get; set; }
         public virtual ICollection<SpectrumMission> SpectrumMission { get; set; }
         public virtual ICollection<SpectrumProduct> SpectrumProduct { get; set; }
     }
