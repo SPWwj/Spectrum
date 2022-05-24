@@ -6,6 +6,9 @@ Objective:
 # Proposed Level of Achievement
 Apollo 11 
 
+# Demo Website
+https://spectrumx.azurewebsites.net/
+
 # Motivation
 Problem:
 1) Long Waiting Time when purchasing the food
@@ -19,7 +22,7 @@ Problem:
     3. Testimonial: Singtel Internship (automation), National NAPROCK Competition, MAPP design contest by Singapore Polytechnic, AWS IoT App challenge
 2) Gerald Koh Kheng Guan
     1. Background: Information Security
-    2. Experience: CS1010, CS2040C (end of sem)
+    2. Experience: CS1010, CS2040C
 
 # Tech Stack
 Environment Setup:
@@ -42,7 +45,7 @@ Technologies:
 Aim for M1:
  1) Notification 
  2) Shop Orders
- 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update
+ 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate using phone app
 
 After M1:
  1) Pattern Recognition 
