@@ -22,7 +22,7 @@ Problem:
     3. Testimonial: Singtel Internship (automation), National NAPROCK Competition, MAPP design contest by Singapore Polytechnic, AWS IoT App challenge
 2) Gerald Koh Kheng Guan
     1. Background: Information Security
-    2. Experience: CS1010, CS2040C (end of sem)
+    2. Experience: CS1010, CS2040C
 
 # Tech Stack
 Environment Setup:
