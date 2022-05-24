@@ -1,15 +1,15 @@
 # Spectrum
 Objective:
 * Eliminate the need of Pager used by restaurants and provide free notification service to restaurants, Food courts and hawker via the use of smartphone.
-* Can be sustain through non-distructive adv from the subscription notification page.
+* Can be sustain through non-distruptive advertisement from the subscription notification page.
 
 # Proposed Level of Achievement
 Apollo 11 
 
 # Motivation
 Problem:
-1) Long waiting Time when purchaing the food
-2) Life can be more meaningful instead of queuing for you order.
+1) Long Waiting Time when purchasing the food
+2) Life can be more meaningful instead of queuing for your order.
 3) Not all Shops have Pager System.
 
 # Qualifications
