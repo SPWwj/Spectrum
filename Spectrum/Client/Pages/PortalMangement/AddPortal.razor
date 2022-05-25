@@ -1,30 +1,31 @@
 ﻿@page "/portal/add"
 @page "/portal/edit/{portalId}"
-@inject HttpClient Http
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Spectrum.Shared
 @attribute [Authorize]
+@inject PortalState PortalState
+@inject PortalClient PortalClient
 
 
 <h1>@Title Portal</h1>
 <hr />
-<EditForm Model="@portal" OnValidSubmit="SavePortal">
+<EditForm Model="@PortalState.SelectedPortal" OnValidSubmit="SavePortal">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="Name" class="form-label">Name</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="portal!.Name" />
+            <InputText class="form-control" @bind-Value="@PortalState.SelectedPortal!.Name" />
         </div>
-        <ValidationMessage For="@(() => portal.Name)" />
+        <ValidationMessage For="@(() => @PortalState.SelectedPortal.Name)" />
     </div>
     <div class="mb-3">
         <label for="Address" class="form-label">Address</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="portal.PortalAddress" />
+            <InputText class="form-control" @bind-Value="@PortalState.SelectedPortal.PortalAddress" />
         </div>
-        <ValidationMessage For="@(() => portal.PortalAddress)" />
+        <ValidationMessage For="@(() => @PortalState.SelectedPortal.PortalAddress)" />
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
@@ -33,29 +34,33 @@
 </EditForm>
 @code {
     [Parameter]
-    public string portalId { get; set; }
-    protected string Title = "Add";
-    protected SpectrumPortal? portal = new();
-    protected override async Task OnParametersSetAsync()
+    public string? portalId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    protected override void OnParametersSet()
     {
         if (!string.IsNullOrWhiteSpace(portalId))
         {
-            applicationUser = await LoadApplicationUser();
-            portal = applicationUser.SpectrumPortal.First(x => x.Id == portalId);
-            //portal = await Http.GetFromJsonAsync<SpectrumPortal>("api/portal/" + portalId);
-            Title = "Edit " + portal.Name;
+            if (!PortalState.SetSelectedPortal(portalId))
+            {
+                NavigationManager.NavigateTo("/portal");
+            }
+            Title = "Edit " + PortalState.SelectedPortal!.Name;
 
+        }
+        else
+        {
+            PortalState.SelectedPortal = new SpectrumPortal();
         }
     }
     protected async Task SavePortal()
     {
-        if (!string.IsNullOrWhiteSpace(portal!.Id))
+        if (!string.IsNullOrWhiteSpace(portalId))
         {
-            await Http.PutAsJsonAsync("api/portal", portal);
+            await PortalClient.UpdatePortal(PortalState.SelectedPortal!);
         }
         else
         {
-            await Http.PostAsJsonAsync("api/portal", portal);
+            PortalState.AddPortal(await PortalClient.AddPortal(PortalState.SelectedPortal!));
         }
         Cancel();
     }
@@ -64,19 +69,4 @@
         NavigationManager.NavigateTo("/portal");
     }
 
-    protected ApplicationUser applicationUser = new();
-
-    async Task<ApplicationUser> LoadApplicationUser()
-    {
-        var applicationUser = new ApplicationUser();
-        try
-        {
-            applicationUser = await Http.GetFromJsonAsync<ApplicationUser>("/api/portal");
-        }
-        catch (AccessTokenNotAvailableException ex)
-        {
-            ex.Redirect();
-        }
-        return applicationUser!;
-    }
 }

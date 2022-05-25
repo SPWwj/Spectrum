@@ -3,16 +3,17 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Spectrum.Shared
 @attribute [Authorize]
-@inject HttpClient Http
+@inject PortalState PortalState
+@inject PortalClient PortalClient
 
-@if (applicationUser == null)
+@if (PortalState.ApplicationUser == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <h1>Greetings: @applicationUser.UserName</h1>
-    <p>You Portal Credit Is: @applicationUser.SpectrumPortalLimit</p>
+    <h1>Greetings: @PortalState.ApplicationUser.UserName</h1>
+    <p>You Portal Credit Is: @PortalState.ApplicationUser.SpectrumPortalLimit</p>
     <div class="row">
         <div class="col-md-6">
             <a href='/portal/add' class="btn btn-primary" role="button">
@@ -22,11 +23,12 @@ else
         </div>
         <div class="input-group col">
             <input type="text" class="form-control" placeholder="Search Portal by name"
-               @bind="SearchString" @onchange="ResetSearch" @bind:event="oninput" @onkeyup="FilterPortal" />
-            @if (SearchString.Length > 0)
+               @bind="PortalState.SearchString" @onchange="PortalState.ResetSearch" 
+               @bind:event="oninput" @onkeyup="PortalState.FilterPortal" />
+            @if (PortalState.SearchString.Length > 0)
             {
                 <div class="input-group-append">
-                    <button class="btn btn-danger" @onclick="ResetSearch">
+                    <button class="btn btn-danger" @onclick="PortalState.ResetSearch">
                         Clear
                     </button>
                 </div>
@@ -36,7 +38,7 @@ else
     
     </div>
     <br />
-    @if (applicationUser.SpectrumPortal == null)
+    @if (PortalState.ApplicationUser.SpectrumPortal == null)
     {
         <p><em>Loading...</em></p>
     }
@@ -52,7 +54,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var (portal, index) in searchPortalData
+                @foreach (var (portal, index) in PortalState.SearchPortalData
                .Select((portal, i) => (portal, i)))
                 {
                     <tr>
@@ -78,48 +80,25 @@ else
     }
 }
 @code {
-    protected ApplicationUser applicationUser = new();
-    protected List<SpectrumPortal> searchPortalData = new();
-    protected string SearchString { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-
-        applicationUser = await LoadApplicationUser();
+        PortalState.LoadUser(await LoadApplicationUser());
     }
 
-    async Task<ApplicationUser> LoadApplicationUser()
+    private async Task<ApplicationUser> LoadApplicationUser()
     {
-        var applicationUser = new ApplicationUser();
+        ApplicationUser? au = new ApplicationUser();
         try
         {
-            applicationUser = await Http.GetFromJsonAsync<ApplicationUser>("/api/portal");
-            searchPortalData = applicationUser!.SpectrumPortal.ToList();
+            au = await PortalClient.GetUserAndPortals();
+            return au ?? new ApplicationUser();
         }
         catch (AccessTokenNotAvailableException ex)
         {
             ex.Redirect();
         }
-        return applicationUser!;
+        return au!;
     }
 
-    protected void FilterPortal()
-    {
-        if (!string.IsNullOrEmpty(SearchString))
-        {
-            searchPortalData = applicationUser.SpectrumPortal
-                .Where(x => x.Name!.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
-                .ToList();
-        }
-        else
-        {
-            searchPortalData = applicationUser.SpectrumPortal.ToList();
-        }
-    }
-
-    public void ResetSearch()
-    {
-        SearchString = string.Empty;
-        searchPortalData = applicationUser.SpectrumPortal.ToList();
-    }
 }

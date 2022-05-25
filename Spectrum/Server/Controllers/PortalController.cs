@@ -85,11 +85,18 @@ namespace Spectrum.Server.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(SpectrumPortal spectrumPortal)
+        public async Task<IActionResult> UpdatePortal(SpectrumPortal spectrumPortal)
         {
-            _db.SpectrumPortal.Update(spectrumPortal);
-            await _db.SaveChangesAsync();
-            return Ok();
+            try
+            {
+                _db.SpectrumPortal.Update(spectrumPortal);
+                await _db.SaveChangesAsync();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private string GetUserId()

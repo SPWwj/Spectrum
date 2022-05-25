@@ -1,5 +1,6 @@
 ﻿@page "/portal/delete/{portalId}"
-@inject HttpClient Http
+@inject PortalState PortalState
+@inject PortalClient PortalClient
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
@@ -14,32 +15,33 @@
         <tbody>
             <tr>
                 <td>Name</td>
-                <td>@portal!.Name</td>
+                <td>@PortalState.SelectedPortal!.Name</td>
             </tr>
             <tr>
-                <td>Portal Address</td>
-                <td>@portal.PortalAddress</td>
+                <td>PortalState.SelectedPortal! Address</td>
+                <td>@PortalState.SelectedPortal!.PortalAddress</td>
             </tr>
         </tbody>
     </table>
 </div>
 <div class="form-group">
-    <input type="submit" value="Delete" @onclick="(async () => await RemovePortal(portal.Id))" class="btn btn-danger" />
+    <input type="submit" value="Delete" @onclick="(async () =>
+        await RemovePortal(PortalState.SelectedPortal!.Id))" class="btn btn-danger" />
     <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
 </div>
 @code {
     [Parameter]
     public string? portalId { get; set; }
-    SpectrumPortal? portal = new();
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        //There is non need to request from server, just do it from local
-        applicationUser = await LoadApplicationUser();
-        portal = applicationUser.SpectrumPortal.First(x => x.Id == portalId);
+        if (string.IsNullOrWhiteSpace(portalId) || !PortalState.SetSelectedPortal(portalId))
+        {
+            NavigationManager.NavigateTo("/portal");
+        }
     }
     protected async Task RemovePortal(string portalId)
     {
-        await Http.DeleteAsync("/api/portal/" + portalId);
+        PortalState.RemovePortal(portalId,await PortalClient.RemovePortal(portalId));
         NavigationManager.NavigateTo("/portal");
     }
     void Cancel()
@@ -48,19 +50,4 @@
     }
 
 
-    protected ApplicationUser applicationUser = new();
-
-    async Task<ApplicationUser> LoadApplicationUser()
-    {
-        var applicationUser = new ApplicationUser();
-        try
-        {
-            applicationUser = await Http.GetFromJsonAsync<ApplicationUser>("/api/portal");
-        }
-        catch (AccessTokenNotAvailableException ex)
-        {
-            ex.Redirect();
-        }
-        return applicationUser!;
-    }
 }
