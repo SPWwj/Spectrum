@@ -4,6 +4,7 @@
 @using Spectrum.Shared
 @attribute [Authorize]
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -53,5 +54,26 @@ else
     {
 
         applicationUser = await LoadApplicationUser();
+        _ = RequestNotificationSubscriptionAsync();
+
     }
+
+
+async Task RequestNotificationSubscriptionAsync()
+{
+    var subscription = await JSRuntime.InvokeAsync<NotificationSubscription>("blazorPushNotifications.requestSubscription");
+    if (subscription != null)
+    {
+        try
+        {
+            var response = await Http.PutAsJsonAsync("notifications/subscribe", subscription);
+            response.EnsureSuccessStatusCode();
+
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+    }
+}
 }

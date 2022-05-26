@@ -6,7 +6,7 @@ namespace Spectrum.Shared.Models
     {
         public string Id { get; set; } = string.Empty;
         public string? ApplicationUserId { get; set; } = string.Empty;
-        public virtual ApplicationUser? ApplicationUser { get; set; } 
+        [JsonIgnore] public virtual ApplicationUser? ApplicationUser { get; set; } 
         public int? SpectrumMissionId { get; set; }
         [JsonIgnore] public virtual SpectrumMission? SpectrumMission { get; set; }
     }

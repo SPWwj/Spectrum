@@ -5,6 +5,7 @@
 @attribute [Authorize]
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 @if (applicationUser == null)
 {
@@ -204,14 +205,8 @@ else
 
     public async Task CreatePortal()
     {
-        SpectrumPortal spectrumPortal = new SpectrumPortal()
-            {
-                Name = "Test",
-                PortalAddress = "This Addr"
-            };
-        var response = await Http.PostAsJsonAsync("/api/portal", spectrumPortal);
+        var response = await Http.GetAsync("/notifications/send");
         response.EnsureSuccessStatusCode();
-        var portalId = await response.Content.ReadFromJsonAsync<Guid>();
     }
 
   
@@ -227,7 +222,24 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-
+        _ = RequestNotificationSubscriptionAsync();
         applicationUser = await LoadApplicationUser();
     }
+    async Task RequestNotificationSubscriptionAsync()
+{
+    var subscription = await JSRuntime.InvokeAsync<NotificationSubscription>("blazorPushNotifications.requestSubscription");
+    if (subscription != null)
+    {
+        try
+        {
+            var response = await Http.PutAsJsonAsync("notifications/subscribe", subscription);
+            response.EnsureSuccessStatusCode();
+
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+    }
+}
 }

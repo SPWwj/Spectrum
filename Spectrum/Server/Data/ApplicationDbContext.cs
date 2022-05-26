@@ -24,6 +24,7 @@ namespace Spectrum.Server.Data
         public virtual DbSet<SpectrumPortal> SpectrumPortal { get; set; } = null!;
         public virtual DbSet<SpectrumProduct> SpectrumProduct { get; set; } = null!;
         public virtual DbSet<ApplicationUser> SpectrumUsers { get; set; } = null!;
+        public virtual DbSet<NotificationSubscription> NotificationSubscription { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

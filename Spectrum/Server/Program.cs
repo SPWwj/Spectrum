@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Spectrum.Server.Data;
 using Spectrum.Server.Hubs;
 using Spectrum.Shared.Services.Email;
-using Azure.Identity;
 using Spectrum.Shared.Models;
+using Spectrum.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +66,8 @@ app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapSpectrumApi();
 
 
 app.MapRazorPages();
