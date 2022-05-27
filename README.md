@@ -11,24 +11,25 @@ Apollo 11
 
 # User Stories
 Customers: 
-1) Scan the QR Code provider by stall owner
-2) Access the Stall website and subscribe to the notification service using either email or web notification
-3) Free to move around or doing other activities while browsing through the menu and waiting for your order to be ready
-4) Receive notification when order is ready for collection
+1) Scan the QR Code provider by stall owner using their personal smartphone.
+2) Access the Stall website and subscribe to the notification service using either email or web notification.
+3) Free to move around or doing other activities while browsing through the menu and waiting for your order to be ready.
+4) Receive notification when order is ready for collection.
 
 Stall Owner:
-1) Generate receipt
-2) Update receipt status when complete
-* Note that User stories for Stall Owner is to be review 
-* Trying either to automate using
+1) Generate receipt.
+2) Update receipt status when complete.
+* Note that User stories for Stall Owner is to be reviewed 
+* Trying to automate by using either
    1) Machine learning
    2) Construct an entire new framework to handle order process instead of provide improvement on the existing process
 
 # Motivation
 Problem:
-1) Long Waiting Time when purchasing the food
-2) Life can be more meaningful instead of queuing for your order.
+1) Long Mundane Waiting Time when purchasing food.
+2) Life can be more meaningful instead of queuing for your order while you could be doing something else.
 3) Not all Shops have Pager System.
+4) Even with Pager systems, a Pager Set is usually quite expensive and can spoil through wear and tear. (Upwards of a few hundred dollars per set)
 
 # Qualifications
 1) Wei Wen Jie 
