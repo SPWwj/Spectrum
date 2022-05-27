@@ -21,7 +21,7 @@ Stall Owner:
 2) Update receipt status when complete
 * Note that User stories for Stall Owner is to be review 
 * Trying either to automate using
-   1) ML
+   1) Machine learning
    2) Construct an entire new framework to handle order process instead of provide improvement on the existing process
 
 # Motivation
