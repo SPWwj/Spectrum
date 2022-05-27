@@ -34,7 +34,7 @@
     public string? portalId { get; set; }
     protected override void OnInitialized()
     {
-        if (string.IsNullOrWhiteSpace(portalId) || !PortalState.SetSelectedPortal(portalId))
+        if (string.IsNullOrWhiteSpace(portalId) || PortalState.SelectedPortal == null)
         {
             NavigationManager.NavigateTo("/portal");
         }

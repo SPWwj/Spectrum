@@ -5,6 +5,7 @@
 @attribute [Authorize]
 @inject PortalState PortalState
 @inject PortalClient PortalClient
+@inject NavigationManager NavigationManager
 
 @if (PortalState.ApplicationUser == null)
 {
@@ -62,15 +63,15 @@ else
                         <td>@portal.Name</td>
                         <td>@portal.PortalAddress</td>
                         <td>
-                            <a href='/portal/Manage/@portal.Id' class="btn btn-outline-danger" role="button">
+                            <button @onclick="() => Manage(portal.Id)" class="btn btn-outline-danger" role="button">
                                 Manage
-                            </a>
-                            <a href='/portal/edit/@portal.Id' class="btn btn-outline-dark" role="button">
+                            </button>
+                            <button @onclick="() => Edit(portal.Id)" class="btn btn-outline-dark" role="button">
                                 Edit
-                            </a>
-                            <a href='/portal/delete/@portal.Id' class="btn btn-outline-danger" role="button">
+                            </button>
+                            <button @onclick="() => Delete(portal.Id)" class="btn btn-outline-danger" role="button">
                                 Delete
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -99,6 +100,22 @@ else
             ex.Redirect();
         }
         return au!;
+    }
+
+    private void Delete(string id)
+    {
+        PortalState.SetSelectedPortal(id);
+        NavigationManager.NavigateTo("/portal/delete/" + id);
+    }
+    private void Edit(string id)
+    {
+        PortalState.SetSelectedPortal(id);
+        NavigationManager.NavigateTo("/portal/edit/" + id);
+    }
+    private void Manage(string id)
+    {
+        PortalState.SetSelectedPortal(id);
+        NavigationManager.NavigateTo("/portal/manage/" + id);
     }
 
 }

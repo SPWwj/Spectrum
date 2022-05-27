@@ -1,13 +1,61 @@
 ﻿@page "/portal/manage/{portalId}"
 @using Syncfusion.Blazor.BarcodeGenerator
 @inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject PortalState PortalState
+@inject PortalClient PortalClient
+@attribute [Authorize]
 
-<SfQRCodeGenerator Width="200px" Height="150px" Value="@PortalUrl">
-    <QRCodeGeneratorDisplayText Text="Client Portal"></QRCodeGeneratorDisplayText>
-</SfQRCodeGenerator>
-<h3>ManagePortal</h3>
 
-@portalId
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <SfQRCodeGenerator Width="400" Height="400" Value="@PortalUrl">
+                <QRCodeGeneratorDisplayText Text="@PortalState!.SelectedPortal!.Name"></QRCodeGeneratorDisplayText>
+            </SfQRCodeGenerator>
+        </div>
+        <div class="col mportal-detail">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Portal Name</label>
+                </div>
+                <div class="col-md-6">
+                    <p>@PortalState!.SelectedPortal!.Name</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Portal Address</label>
+                </div>
+                <div class="col-md-6">
+                    <p>@PortalState!.SelectedPortal!.PortalAddress</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>All Missions</label>
+                </div>
+                <div class="col-md-6">
+                    <p>@PortalState!.SelectedPortal!.SpectrumMission.Count</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Active Missions</label>
+                </div>
+                <div class="col-md-6">
+                    <p>@PortalState!.SelectedPortal!.SpectrumMission.Where(x => x.Status != "Done").Count()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <Spectrum.Client.Pages.TicketUnion.MissionBoard></Spectrum.Client.Pages.TicketUnion.MissionBoard>
+    </div>
+</div>
+
 
 @code {
     [Parameter]
@@ -15,9 +63,13 @@
 
     public string PortalUrl { get; set; } = string.Empty;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         //There is non need to request from server, just do it from local
+        if (string.IsNullOrWhiteSpace(portalId) || PortalState.SelectedPortal == null)
+        {
+            NavigationManager.NavigateTo("/portal");
+        }
         PortalUrl = NavigationManager.ToAbsoluteUri("missionboard").ToString();
     }
 }
