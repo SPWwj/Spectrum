@@ -30,6 +30,7 @@ Problem:
 2) Life can be more meaningful instead of queuing for your order while you could be doing something else.
 3) Not all Shops have Pager System.
 4) Even with Pager systems, a Pager Set is usually quite expensive and can spoil through wear and tear. (Upwards of a few hundred dollars per set)
+5) Sanitary concerns (pager systems have to be reused by different customer regularly)
 
 # Qualifications
 1) Wei Wen Jie 
