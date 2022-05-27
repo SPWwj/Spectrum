@@ -6,14 +6,14 @@ Apollo 11
 
 # Aim:
 * Eliminate the need of Pager used by restaurants and provide free notification service to restaurants, Food courts and hawker via the use of smartphone.
-* Make offline ordering process more convenience.
-* Prove free notification service to all restaurants, Food courts and hawker by using non-distruptive advertisement from the subscription notification page.
+* Make offline ordering process more convenient.
+* Provide free notification service to all restaurants, Food courts and hawker by using non-disruptive advertisement from the subscription notification page.
 
 # User Stories
 Customers: 
-1) Scan the QR Code provider by stall owner 
+1) Scan the QR Code provider by stall owner
 2) Access the Stall website and subscribe to the notification service using either email or web notification
-3) Free to move around or doing other activities 
+3) Free to move around or doing other activities while browsing through the menu and waiting for your order to be ready
 4) Receive notification when order is ready for collection
 
 Stall Owner:
