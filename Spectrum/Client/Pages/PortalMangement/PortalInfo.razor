@@ -63,13 +63,13 @@ else
                         <td>@portal.Name</td>
                         <td>@portal.PortalAddress</td>
                         <td>
-                            <button @onclick="() => Manage(portal.Id)" class="btn btn-outline-danger" role="button">
+                            <button @onclick="() => Manage(portal)" class="btn btn-outline-danger" role="button">
                                 Manage
                             </button>
-                            <button @onclick="() => Edit(portal.Id)" class="btn btn-outline-dark" role="button">
+                            <button @onclick="() => Edit(portal)" class="btn btn-outline-dark" role="button">
                                 Edit
                             </button>
-                            <button @onclick="() => Delete(portal.Id)" class="btn btn-outline-danger" role="button">
+                            <button @onclick="() => Delete(portal)" class="btn btn-outline-danger" role="button">
                                 Delete
                             </button>
                         </td>
@@ -102,20 +102,20 @@ else
         return au!;
     }
 
-    private void Delete(string id)
+    private void Delete(SpectrumPortal portal)
     {
-        PortalState.SetSelectedPortal(id);
-        NavigationManager.NavigateTo("/portal/delete/" + id);
+        PortalState.SetSelectedPortal(portal);
+        NavigationManager.NavigateTo("/portal/delete/" + portal.Id);
     }
-    private void Edit(string id)
+    private void Edit(SpectrumPortal portal)
     {
-        PortalState.SetSelectedPortal(id);
-        NavigationManager.NavigateTo("/portal/edit/" + id);
+        PortalState.SetSelectedPortal(portal);
+        NavigationManager.NavigateTo("/portal/edit/" + portal.Id);
     }
-    private void Manage(string id)
+    private void Manage(SpectrumPortal portal)
     {
-        PortalState.SetSelectedPortal(id);
-        NavigationManager.NavigateTo("/portal/manage/" + id);
+        PortalState.SetSelectedPortal(portal);
+        NavigationManager.NavigateTo("/portal/manage/" + portal.PortalAddress);
     }
 
 }

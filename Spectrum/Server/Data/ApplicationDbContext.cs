@@ -31,6 +31,11 @@ namespace Spectrum.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<SpectrumPortal>(b =>
+            {
+                  b.HasIndex(u => u.PortalAddress).IsUnique();
+            });
+
             modelBuilder.Entity<ApplicationUser>(b =>
             {
                 b.ToTable("SpectrumUsers");

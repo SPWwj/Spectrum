@@ -14,11 +14,13 @@ namespace Spectrum.Shared.Services.States
         public string SearchString { get; set; } = string.Empty;
         public SpectrumPortal? SelectedPortal { get; set; }
 
-        public bool SetSelectedPortal(string id)
+        public bool SetSelectedPortal(SpectrumPortal portal)
         {
-            SelectedPortal = ApplicationUser.SpectrumPortal.Where(x => x.Id == id).FirstOrDefault();
+            SelectedPortal = ApplicationUser.SpectrumPortal.Where(x => x.Id == portal.Id).FirstOrDefault();
             return SelectedPortal != null;
         }
+
+
         public void ClearSelectedPortal()
         {
             SelectedPortal = null;
