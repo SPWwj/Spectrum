@@ -14,9 +14,9 @@ namespace Spectrum.Shared.Services.States
         public string SearchString { get; set; } = string.Empty;
         public SpectrumPortal? SelectedPortal { get; set; }
 
-        public bool SetSelectedPortal(SpectrumPortal portal)
+        public bool SetSelectedPortal(string portalAddr)
         {
-            SelectedPortal = ApplicationUser.SpectrumPortal.Where(x => x.Id == portal.Id).FirstOrDefault();
+            SelectedPortal = ApplicationUser.SpectrumPortal.Where(x => x.PortalAddress == portalAddr).FirstOrDefault();
             return SelectedPortal != null;
         }
 

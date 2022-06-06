@@ -1,4 +1,4 @@
-﻿@page "/portal/manage/{portalId}"
+﻿@page "/portal/manage/{portalAddr}"
 @using Syncfusion.Blazor.BarcodeGenerator
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Authorization
@@ -7,69 +7,98 @@
 @inject PortalClient PortalClient
 @attribute [Authorize]
 
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <SfQRCodeGenerator Width="400" Height="400" Value="@PortalUrl">
-                <QRCodeGeneratorDisplayText Text="@PortalState!.SelectedPortal!.Name"></QRCodeGeneratorDisplayText>
-            </SfQRCodeGenerator>
+@if (PortalState.ApplicationUser == null || PortalState.SelectedPortal == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <SfQRCodeGenerator Width="400" Height="400" Value="@PortalUrl">
+                    <QRCodeGeneratorDisplayText Text="@PortalState!.SelectedPortal!.Name"></QRCodeGeneratorDisplayText>
+                </SfQRCodeGenerator>
+            </div>
+            <div class="col mportal-detail">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Portal Name</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>@PortalState!.SelectedPortal!.Name</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Portal Address</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>@PortalState!.SelectedPortal!.PortalAddress</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>All Missions</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>@PortalState!.SelectedPortal!.SpectrumMission.Count</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Active Missions</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>@PortalState!.SelectedPortal!.SpectrumMission.Where(x => x.Status != "Done").Count()</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col mportal-detail">
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Portal Name</label>
-                </div>
-                <div class="col-md-6">
-                    <p>@PortalState!.SelectedPortal!.Name</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Portal Address</label>
-                </div>
-                <div class="col-md-6">
-                    <p>@PortalState!.SelectedPortal!.PortalAddress</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>All Missions</label>
-                </div>
-                <div class="col-md-6">
-                    <p>@PortalState!.SelectedPortal!.SpectrumMission.Count</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Active Missions</label>
-                </div>
-                <div class="col-md-6">
-                    <p>@PortalState!.SelectedPortal!.SpectrumMission.Where(x => x.Status != "Done").Count()</p>
-                </div>
-            </div>
+        <div class="row">
+            <Spectrum.Client.Pages.TicketUnion.MissionBoard></Spectrum.Client.Pages.TicketUnion.MissionBoard>
         </div>
     </div>
-    <div class="row">
-
-        <Spectrum.Client.Pages.TicketUnion.MissionBoard></Spectrum.Client.Pages.TicketUnion.MissionBoard>
-    </div>
-</div>
+}
 
 
 @code {
     [Parameter]
-    public string? portalId { get; set; }
+    public string? portalAddr { get; set; }
 
     public string PortalUrl { get; set; } = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        //There is non need to request from server, just do it from local
-        if (string.IsNullOrWhiteSpace(portalId) || PortalState.SelectedPortal == null)
+        if (string.IsNullOrWhiteSpace(portalAddr))
         {
             NavigationManager.NavigateTo("/portal");
         }
+        if (PortalState.SelectedPortal == null)
+        {
+            PortalState.LoadUser(await LoadApplicationUser());
+            PortalState.SetSelectedPortal(portalAddr!);
+        }
+
         PortalUrl = NavigationManager.ToAbsoluteUri("missionboard").ToString();
     }
+
+    protected async Task<ApplicationUser> LoadApplicationUser()
+    {
+        ApplicationUser? au = new ApplicationUser();
+        try
+        {
+            au = await PortalClient.GetUserAndPortals();
+            return au ?? new ApplicationUser();
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        return au!;
+    }
+
+
+
+
 }

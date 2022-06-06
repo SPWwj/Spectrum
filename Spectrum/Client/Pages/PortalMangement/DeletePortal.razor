@@ -1,4 +1,4 @@
-﻿@page "/portal/delete/{portalId}"
+﻿@page "/portal/delete/{portalAddr}"
 @inject PortalState PortalState
 @inject PortalClient PortalClient
 @inject NavigationManager NavigationManager
@@ -6,42 +6,55 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Spectrum.Shared
 @attribute [Authorize]
-
-<h2>Delete Portal</h2>
-<br />
-<div class="form-group">
-    <h4>Do you want to delete this Portal?</h4>
-    <table class="table">
-        <tbody>
-            <tr>
-                <td>Name</td>
-                <td>@PortalState.SelectedPortal!.Name</td>
-            </tr>
-            <tr>
-                <td>PortalState.SelectedPortal! Address</td>
-                <td>@PortalState.SelectedPortal!.PortalAddress</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="form-group">
-    <input type="submit" value="Delete" @onclick="(async () =>
+@if (PortalState.ApplicationUser == null || PortalState.SelectedPortal == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>Delete Portal</h2>
+    <br />
+    <div class="form-group">
+        <h4>Do you want to delete this Portal?</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>@PortalState.SelectedPortal!.Name</td>
+                </tr>
+                <tr>
+                    <td>PortalState.SelectedPortal! Address</td>
+                    <td>@PortalState.SelectedPortal!.PortalAddress</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Delete" @onclick="(async () =>
         await RemovePortal(PortalState.SelectedPortal!.Id))" class="btn btn-danger" />
-    <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
-</div>
+        <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+    </div>
+}
 @code {
     [Parameter]
-    public string? portalId { get; set; }
-    protected override void OnInitialized()
+    public string? portalAddr { get; set; }
+    protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrWhiteSpace(portalId) || PortalState.SelectedPortal == null)
+
+        if (string.IsNullOrWhiteSpace(portalAddr) || PortalState.SelectedPortal == null)
         {
             NavigationManager.NavigateTo("/portal");
         }
+        if (PortalState.SelectedPortal == null)
+        {
+            PortalState.LoadUser(await LoadApplicationUser());
+            PortalState.SetSelectedPortal(portalAddr!);
+        }
+
     }
     protected async Task RemovePortal(string portalId)
     {
-        PortalState.RemovePortal(portalId,await PortalClient.RemovePortal(portalId));
+        PortalState.RemovePortal(portalId, await PortalClient.RemovePortal(portalId));
         NavigationManager.NavigateTo("/portal");
     }
     void Cancel()
@@ -49,5 +62,20 @@
         NavigationManager.NavigateTo("/portal");
     }
 
+
+    protected async Task<ApplicationUser> LoadApplicationUser()
+    {
+        ApplicationUser? au = new ApplicationUser();
+        try
+        {
+            au = await PortalClient.GetUserAndPortals();
+            return au ?? new ApplicationUser();
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        return au!;
+    }
 
 }

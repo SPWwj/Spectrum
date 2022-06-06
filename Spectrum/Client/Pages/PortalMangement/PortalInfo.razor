@@ -63,13 +63,13 @@ else
                         <td>@portal.Name</td>
                         <td>@portal.PortalAddress</td>
                         <td>
-                            <button @onclick="() => Manage(portal)" class="btn btn-outline-danger" role="button">
+                            <button @onclick="() => Manage(portal.PortalAddress)" class="btn btn-outline-danger" role="button">
                                 Manage
                             </button>
-                            <button @onclick="() => Edit(portal)" class="btn btn-outline-dark" role="button">
+                            <button @onclick="() => Edit(portal.PortalAddress)" class="btn btn-outline-dark" role="button">
                                 Edit
                             </button>
-                            <button @onclick="() => Delete(portal)" class="btn btn-outline-danger" role="button">
+                            <button @onclick="() => Delete(portal.PortalAddress)" class="btn btn-outline-danger" role="button">
                                 Delete
                             </button>
                         </td>
@@ -87,7 +87,7 @@ else
         PortalState.LoadUser(await LoadApplicationUser());
     }
 
-    private async Task<ApplicationUser> LoadApplicationUser()
+    protected async Task<ApplicationUser> LoadApplicationUser()
     {
         ApplicationUser? au = new ApplicationUser();
         try
@@ -102,20 +102,20 @@ else
         return au!;
     }
 
-    private void Delete(SpectrumPortal portal)
+    private void Delete(string portalAddr)
     {
-        PortalState.SetSelectedPortal(portal);
-        NavigationManager.NavigateTo("/portal/delete/" + portal.Id);
+        PortalState.SetSelectedPortal(portalAddr);
+        NavigationManager.NavigateTo("/portal/delete/" + portalAddr);
     }
-    private void Edit(SpectrumPortal portal)
+    private void Edit(string portalAddr)
     {
-        PortalState.SetSelectedPortal(portal);
-        NavigationManager.NavigateTo("/portal/edit/" + portal.Id);
+        PortalState.SetSelectedPortal(portalAddr);
+        NavigationManager.NavigateTo("/portal/edit/" + portalAddr);
     }
-    private void Manage(SpectrumPortal portal)
+    private void Manage(string portalAddr)
     {
-        PortalState.SetSelectedPortal(portal);
-        NavigationManager.NavigateTo("/portal/manage/" + portal.PortalAddress);
+        PortalState.SetSelectedPortal(portalAddr);
+        NavigationManager.NavigateTo("/portal/manage/" + portalAddr);
     }
 
 }
