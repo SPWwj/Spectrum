@@ -7,6 +7,7 @@ namespace Spectrum.Shared.Services
     {
         public string? ConnectionId { get; set; }
         public string? ReceiverConId { get; set; }
+        public string? RoomId { get; set; }
         public Mission? Parcel { get; set; }
         public IEnumerable<Mission>? Missions { get; set; }
         public Person? Person { get; set; }

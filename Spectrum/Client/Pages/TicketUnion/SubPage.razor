@@ -1,7 +1,13 @@
 ﻿@page "/sub/{portalAddress}"
-<MissionBoard></MissionBoard>
+<MissionBoard SpectrumPortal="SpectrumPortal"></MissionBoard>
 
 @code {
     [Parameter]
     public string? PortalAddress { get; set; }
+    public SpectrumPortal SpectrumPortal { get; set; } = new SpectrumPortal() { PortalAddress = "This addr" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        SpectrumPortal.PortalAddress = PortalAddress!;
+    }
 }

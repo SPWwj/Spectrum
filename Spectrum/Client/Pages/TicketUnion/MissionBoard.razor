@@ -3,6 +3,7 @@
 @implements IAsyncDisposable
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
+@implements IDisposable
 
 @if (!person.Updated)
 {
@@ -11,7 +12,7 @@
 }
 else
 {
-    <h1>@person.Name</h1>
+    <h1>@(SpectrumPortal == null ? "None" :  SpectrumPortal.PortalAddress)</h1>
     <div id="mission_board">
 
         @if (selectedMission != null)
@@ -79,7 +80,8 @@ else
     private Person person = new Person("Guest", PersonRole.Adventurer);
     public string? Name { get; set; } = "xyz";
     private HubConnection? hubConnection;
-
+    [Parameter]
+    public SpectrumPortal? SpectrumPortal { get; set; }
 
     private void MouseOver(Mission m)
     {
@@ -114,11 +116,11 @@ else
             HubTUCarrier carrier = new HubTUCarrier
                 {
                     Type = CarrierType.Add,
-                    Parcel = newMission
+                    Parcel = newMission,
+                    RoomId = SpectrumPortal!.PortalAddress
                 };
             await hubConnection.SendAsync("ToOthers", carrier);
         }
-        missions.Add(newMission);
     }
 
     private async void DoneMission(Mission m)
@@ -130,7 +132,9 @@ else
             HubTUCarrier carrier = new HubTUCarrier
                 {
                     Type = CarrierType.Update,
-                    Parcel = m
+                    Parcel = m,
+                    RoomId = SpectrumPortal!.PortalAddress
+
                 };
             await hubConnection.SendAsync("ToOthers", carrier);
         }
@@ -159,6 +163,7 @@ else
         });
 
         await hubConnection.StartAsync();
+        await JoinRoom();
 
         if (Name != null)
         {
@@ -180,6 +185,14 @@ else
 
     }
 
+    private async Task JoinRoom()
+    {
+        if (hubConnection is not null && SpectrumPortal != null)
+        {
+            await hubConnection.SendAsync("JoinRoom", SpectrumPortal.PortalAddress);
+        }
+    }
+
     private async Task RequestMissions()
     {
         if (hubConnection is not null)
@@ -188,6 +201,8 @@ else
                 {
                     Type = CarrierType.Request,
                     Person = person,
+                    RoomId = SpectrumPortal!.PortalAddress
+
                 };
             await hubConnection.SendAsync("ToOthers", carrier);
         }
@@ -201,6 +216,8 @@ else
                 {
                     Type = CarrierType.OpeningBoardcast,
                     Person = person,
+                    RoomId = SpectrumPortal!.PortalAddress
+
                 };
             await hubConnection.SendAsync("ToOthers", carrier);
         }
@@ -214,6 +231,19 @@ else
         {
             await hubConnection.DisposeAsync();
         }
+    }
+
+    public async void Dispose()
+    {
+        if (hubConnection is not null)
+        {
+            if (SpectrumPortal != null)
+            {
+                await hubConnection.SendAsync("LeaveRoom", SpectrumPortal.PortalAddress);
+            }
+            await hubConnection.DisposeAsync();
+        }
+
     }
 
 }
