@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
 @implements IDisposable
+@inject HttpClient Http
 
 @if (!person.Updated)
 {
@@ -126,6 +127,7 @@ else
     private async void DoneMission(Mission m)
     {
         m.Status = m.Status == Status.Done ? Status.Preparing : Status.Done;
+        await SendWebNotification();
         if (hubConnection is not null)
         {
 
@@ -244,6 +246,11 @@ else
             await hubConnection.DisposeAsync();
         }
 
+    }
+    public async Task SendWebNotification()
+    {
+        var response = await Http.GetAsync("/notifications/send");
+        response.EnsureSuccessStatusCode();
     }
 
 }

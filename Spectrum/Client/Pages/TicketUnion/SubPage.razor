@@ -1,13 +1,18 @@
 ﻿@page "/sub/{portalAddress}"
-<MissionBoard SpectrumPortal="SpectrumPortal"></MissionBoard>
+@if(SpectrumPortal is null)
+{
+        <h1>Loading Please Wait</h1>
 
+}else {
+<MissionBoard SpectrumPortal="SpectrumPortal"></MissionBoard>
+}
 @code {
     [Parameter]
     public string? PortalAddress { get; set; }
-    public SpectrumPortal SpectrumPortal { get; set; } = new SpectrumPortal() { PortalAddress = "This addr" };
+    public SpectrumPortal? SpectrumPortal { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        SpectrumPortal.PortalAddress = PortalAddress!;
+        SpectrumPortal = new SpectrumPortal() { PortalAddress = PortalAddress! };
     }
 }
