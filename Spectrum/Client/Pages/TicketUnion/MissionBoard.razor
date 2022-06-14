@@ -167,7 +167,7 @@ else
         await hubConnection.StartAsync();
         await JoinRoom();
 
-        if (Name != null)
+        if (!string.IsNullOrWhiteSpace(SpectrumPortal!.Id))
         {
             var user = (await authenticationStateTask!).User;
 

@@ -34,7 +34,7 @@ else
                         <label>Portal Address</label>
                     </div>
                     <div class="col-md-6">
-                        <p>@PortalState!.SelectedPortal!.PortalAddress</p>
+                        <p>@PortalUrl</p>
                     </div>
                 </div>
                 <div class="row">
@@ -80,7 +80,7 @@ else
             PortalState.SetSelectedPortal(portalAddr!);
         }
 
-        PortalUrl = NavigationManager.ToAbsoluteUri("missionboard").ToString();
+        PortalUrl = NavigationManager.ToAbsoluteUri("sub/" + portalAddr).ToString();
     }
 
     protected async Task<ApplicationUser> LoadApplicationUser()
