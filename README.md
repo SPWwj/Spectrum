@@ -69,9 +69,7 @@ Aim for M1:
  
 By M2:
  1) Integrate all M1 features into 1 complete app.
- 2) Shop Orders
- 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate     using phone app
- 4) Pattern Recognition
+ 2) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate     using phone app
 
 By M3 
  1) Scale
