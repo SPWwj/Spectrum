@@ -77,7 +77,7 @@ By M3
  3) Documentation
  4) Improve on CSS design
 
-# Flowchart
+# Service Flowchart
 ![SpectrumFlowchart drawio](https://user-images.githubusercontent.com/30100720/169250297-8954bd90-5962-474c-b427-94474153f1bb.png)
 
 # Database Schema (Version 0)
