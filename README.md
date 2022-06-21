@@ -9,8 +9,7 @@ Apollo 11
 * Make offline ordering process more convenient.
 * Provide free notification service to all restaurants, Food courts and hawker by using non-disruptive advertisement from the subscription notification page.
    * Background can be use as advertisement
-   ![image](https://user-images.githubusercontent.com/30100720/174734696-ba783cd6-c523-4a6b-9087-06548dec0113.png =250x)
-
+    <img src="[Assets/icon.png](https://user-images.githubusercontent.com/30100720/174734696-ba783cd6-c523-4a6b-9087-06548dec0113.png)" width="200">
 
 # User Stories
 Customers: 
