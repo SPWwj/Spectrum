@@ -69,9 +69,7 @@ Aim for M1:
  
 By M2:
  1) Integrate all M1 features into 1 complete app.
- 2) Shop Orders
- 3) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate     using phone app
- 4) Pattern Recognition
+ 2) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate     using phone app
 
 By M3 
  1) Scale
@@ -79,7 +77,7 @@ By M3
  3) Documentation
  4) Improve on CSS design
 
-# Flowchart
+# Service Flowchart
 ![SpectrumFlowchart drawio](https://user-images.githubusercontent.com/30100720/169250297-8954bd90-5962-474c-b427-94474153f1bb.png)
 
 # Database Schema (Version 0)
