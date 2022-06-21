@@ -80,7 +80,7 @@ By M3
  4) Improve on CSS design
 
 # Service Flowchart
-![SpectrumFlowchart drawio](https://user-images.githubusercontent.com/30100720/169250297-8954bd90-5962-474c-b427-94474153f1bb.png)
+![services](https://user-images.githubusercontent.com/30100720/174736769-633267fb-fed2-4b98-af5c-be35c5625206.png)
 
 # Database Schema (Version 0)
 ![image](https://user-images.githubusercontent.com/30100720/169005025-e57eb7d3-cbe4-4945-ae9f-2e87a2af4a91.png)
