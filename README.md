@@ -82,5 +82,8 @@ By M3
 # Service Flowchart
 ![services](https://user-images.githubusercontent.com/30100720/174736769-633267fb-fed2-4b98-af5c-be35c5625206.png)
 
+# Signal R update Process
+![Signal R update Process drawio](https://user-images.githubusercontent.com/30100720/174737788-69279494-1017-4fa7-a3a0-a823804b749e.png)
+
 # Database Schema (Version 0)
 ![image](https://user-images.githubusercontent.com/30100720/169005025-e57eb7d3-cbe4-4945-ae9f-2e87a2af4a91.png)
