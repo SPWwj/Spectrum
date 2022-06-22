@@ -65,7 +65,7 @@ A Progressive Web Apps(PWA) provide notification service for tracking orders.
 
 Aim for M1:
  1) Setup Web Service (e.g. WebApp, Sql Server, Key Vault) : Done
- 2) Setup Notification (Web and Email): Done 
+ 2) Setup Notification (Web notification(android supported, ios by 2023) and Email): Done 
  3) Implement Identity Server for Login: Done
  4) Receipt Generation Dashboard : Done
  
