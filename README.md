@@ -8,6 +8,8 @@ Apollo 11
 * Eliminate the need of Pager used by restaurants and provide free notification service to restaurants, Food courts and hawker via the use of smartphone.
 * Make offline ordering process more convenient.
 * Provide free notification service to all restaurants, Food courts and hawker by using non-disruptive advertisement from the subscription notification page.
+   * Background can be use as advertisement
+    <img src="https://user-images.githubusercontent.com/30100720/174734696-ba783cd6-c523-4a6b-9087-06548dec0113.png" width="200">
 
 # User Stories
 Customers: 
@@ -63,13 +65,12 @@ A Progressive Web Apps(PWA) provide notification service for tracking orders.
 
 Aim for M1:
  1) Setup Web Service (e.g. WebApp, Sql Server, Key Vault) : Done
- 2) Setup Notification (Web and Email): Done 
+ 2) Setup Notification (Web notification(android supported, ios by 2023) and Email): Done 
  3) Implement Identity Server for Login: Done
  4) Receipt Generation Dashboard : Done
  
 By M2:
  1) Integrate all M1 features into 1 complete app.
- 2) It is possible to build an iot button for this because this will be most convenience way for user to trigger update, to be simulate     using phone app
 
 By M3 
  1) Scale
@@ -78,7 +79,10 @@ By M3
  4) Improve on CSS design
 
 # Service Flowchart
-![SpectrumFlowchart drawio](https://user-images.githubusercontent.com/30100720/169250297-8954bd90-5962-474c-b427-94474153f1bb.png)
+![services](https://user-images.githubusercontent.com/30100720/174736769-633267fb-fed2-4b98-af5c-be35c5625206.png)
+
+# Signal R update Process
+![Signal R update Process drawio](https://user-images.githubusercontent.com/30100720/174737788-69279494-1017-4fa7-a3a0-a823804b749e.png)
 
 # Database Schema (Version 0)
 ![image](https://user-images.githubusercontent.com/30100720/169005025-e57eb7d3-cbe4-4945-ae9f-2e87a2af4a91.png)
