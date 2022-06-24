@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spectrum.Server.Data;
 
@@ -11,9 +12,10 @@ using Spectrum.Server.Data;
 namespace Spectrum.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220624032928_6")]
+    partial class _6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -413,13 +415,14 @@ namespace Spectrum.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MissionUUID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SpectrumMissionId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("SpectrumMissionId");
 
                     b.ToTable("Order");
                 });
@@ -613,7 +616,13 @@ namespace Spectrum.Server.Migrations
                         .WithMany("Order")
                         .HasForeignKey("ApplicationUserId");
 
+                    b.HasOne("Spectrum.Shared.Models.SpectrumMission", "SpectrumMission")
+                        .WithMany()
+                        .HasForeignKey("SpectrumMissionId");
+
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("SpectrumMission");
                 });
 
             modelBuilder.Entity("Spectrum.Shared.Models.SpectrumMission", b =>

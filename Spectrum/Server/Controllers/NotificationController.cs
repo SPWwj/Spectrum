@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spectrum.Server.Data;
 using Spectrum.Shared.Models;
+using Spectrum.Shared.Services.Email;
 using System.Security.Claims;
 using System.Text.Json;
 using WebPush;
@@ -15,15 +16,16 @@ namespace Spectrum.Server.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<NotificationController> _logger;
-
+        private readonly IEmailService _Email;
 
         //constructor then
 
         public NotificationController(ILogger<NotificationController> logger,
-            ApplicationDbContext db)
+            ApplicationDbContext db, IEmailService email)
         {
             _db = db;
             _logger = logger;
+            _Email = email;
         }
 
 
@@ -48,16 +50,35 @@ namespace Spectrum.Server.Controllers
         //    return Ok(notificationSubscription);
 
         //}
-        [HttpGet("/notifications/send")]
-        public async Task Trigger()
+        [HttpGet("/notifications/send/{missionId}")]
+        public async Task Trigger(string missionId)
         {
             // In the background, send push notifications if possible
+            var orders = _db.Order.Where(id => id.MissionUUID == missionId).ToList();
+            foreach (var order in orders)
+            {
+                if (_Email.IsValidEmail(order.Email))
+                {
+                    await _Email.SendEmailAsync(order.Email, "Hello From Spectrum",
+                    new EventModel { Id = 1, Subject = "Testing", StartTime = DateTime.Now, EndTime = DateTime.Now, EmployeeId = 1 });
+                }
+            }
+
+
+
             var subscription = await _db.NotificationSubscription.Where(e => e.ApplicationUserId == GetUserId()).SingleOrDefaultAsync();
             if (subscription != null)
             {
                 //Change Order Type
                 _ = TrackAndSendNotificationsAsync(new Order(), subscription);
             }
+        }
+
+        [HttpPost("/notifications/email")]
+        public async Task SubEmail(Order order)
+        {
+            await _db.Order.AddAsync(order);
+            await _db.SaveChangesAsync();
         }
 
 

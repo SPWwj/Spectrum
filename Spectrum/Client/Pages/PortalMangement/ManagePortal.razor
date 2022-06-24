@@ -42,7 +42,7 @@ else
                         <label>All Missions</label>
                     </div>
                     <div class="col-md-6">
-                        <p>@PortalState!.SelectedPortal!.SpectrumMission.Count</p>
+                        <p>@PortalState!.MissionCount</p>
                     </div>
                 </div>
                 <div class="row">
@@ -50,13 +50,15 @@ else
                         <label>Active Missions</label>
                     </div>
                     <div class="col-md-6">
-                        <p>@PortalState!.SelectedPortal!.SpectrumMission.Where(x => x.Status != "Done").Count()</p>
+                        <p>@PortalState!.MissionActiveCount</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <Spectrum.Client.Pages.TicketUnion.MissionBoard SpectrumPortal="PortalState.SelectedPortal"></Spectrum.Client.Pages.TicketUnion.MissionBoard>
+            <CascadingValue Value="this">
+                <Spectrum.Client.Pages.TicketUnion.MissionBoard SpectrumPortal="PortalState.SelectedPortal"></Spectrum.Client.Pages.TicketUnion.MissionBoard>
+            </CascadingValue>
         </div>
     </div>
 }
@@ -68,8 +70,14 @@ else
 
     public string PortalUrl { get; set; } = string.Empty;
 
+    public void RefreshState() {
+        this.StateHasChanged();
+    }
+
     protected override async Task OnInitializedAsync()
     {
+        PortalState.RefreshRequested += RefreshState;
+
         if (string.IsNullOrWhiteSpace(portalAddr))
         {
             NavigationManager.NavigateTo("/portal");

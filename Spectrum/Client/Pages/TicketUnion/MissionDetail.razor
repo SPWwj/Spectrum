@@ -1,6 +1,7 @@
 ﻿@using System.Web
 @*@using Spectrum.Shared.Services.Email
-    @inject IEmailService EmailService*@
+
+@inject IEmailService EmailService*@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Spectrum.Shared
@@ -16,17 +17,16 @@
                 <h5> Caller ID: @Mission!.Name </h5>
                 <p>Status: @Mission.Status</p>
                 <input @bind="emailAddress" />
-                <button>Send Mail</button>
+                <button @onclick="SubEmail">Send Mail</button>
 
             </div>
         </div>
-        @*        <div class="property-description">
+        <div class="property-description">
             <h5> Caller ID: @Mission.Name </h5>
             <span>Status: @Mission.Status</span>
             <p>Order Time: @Mission.StartTime</p>
-            <input @bind="emailAddress" />
-            <button @onclick="SendMail">Send Mail</button>
-            </div>*@
+
+        </div>
         <a @onclick="ExitMission">
             <div class="property-social-icons">
                 <span class="oi oi-x"></span>
@@ -39,20 +39,20 @@
     [Parameter]
     public Mission? Mission { get; set; }
     [Parameter]
-
     public EventCallback<Mission> MissionChanged { get; set; }
     private string emailAddress = "";
     //private async void SendMail()
     //{
     //    if (EmailService.IsValidEmail(emailAddress))
     //    {
-    //        await EmailService.SendEmailAsync(emailAddress, "Hello From Spectrum",
+    //        await EmailService.SendEmailAsync("wwjweiwenjie@gmail.com", "Hello From Spectrum",
     //        new EventModel { Id = 1, Subject = "Testing", StartTime = DateTime.Now, EndTime = DateTime.Now, EmployeeId = 1 });
     //    }
     //}
 
     protected override async Task OnInitializedAsync()
     {
+        // In the background, ask if they want to be notified about order updates
         _ = RequestNotificationSubscriptionAsync();
         applicationUser = await LoadApplicationUser();
     }
@@ -94,7 +94,21 @@
         var response = await Http.GetAsync("/notifications/send");
         response.EnsureSuccessStatusCode();
     }
-    
+
+    public async Task SubEmail()
+    {
+        var response = await Http.PostAsJsonAsync("/notifications/email", new Order()
+        {
+            Id = Guid.NewGuid().ToString(),
+            ApplicationUserId = applicationUser!.Id,
+            MissionUUID = Mission!.UUID,
+            Done = false,
+            Email = emailAddress
+
+        });
+        response.EnsureSuccessStatusCode();
+    }
+
 
     private void ExitMission()
     {

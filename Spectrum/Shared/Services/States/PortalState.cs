@@ -7,12 +7,36 @@ using System.Threading.Tasks;
 
 namespace Spectrum.Shared.Services.States
 {
-    public class PortalState
+    public interface IPortalState
     {
+        event Action RefreshRequested;
+        void CallRequestRefresh();
+    }
+
+   
+
+    public class PortalState : IPortalState
+    {
+        public event Action RefreshRequested;
+        public void CallRequestRefresh()
+        {
+            RefreshRequested?.Invoke();
+        }
+
         public ApplicationUser ApplicationUser { get; set; } = new();
         public List<SpectrumPortal> SearchPortalData { get; set; } = new();
         public string SearchString { get; set; } = string.Empty;
         public SpectrumPortal? SelectedPortal { get; set; }
+
+        public List<Mission> Missions = new List<Mission>();
+        public int MissionCount { get; set; }
+        public int MissionActiveCount { get; set; }
+
+        public void UpdateMission()
+        {
+            MissionCount = Missions.Count;
+            MissionActiveCount = Missions.Where(x => x.Status != Status.Done).Count();
+        }
 
         public bool SetSelectedPortal(string portalAddr)
         {
