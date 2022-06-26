@@ -70,14 +70,14 @@ Aim for M1:
  4) Receipt Generation Dashboard : Done
  
 By M2:
- 1) Integrate all M1 features into 1 complete app.
+ 1) Integrate all M1 features into 1 complete app. （Done）
 
 By M3 
- 1) Scale
- 2) Testing
- 3) Documentation
- 4) Improve on CSS design
-
+ 1) Testing
+ 2) Documentation
+ 3) Improve on CSS design
+ 4) Exploring 
+      - (Current Pager System + IOT) -> (Extension NFC Smartphone) 
 # Service Flowchart
 ![services](https://user-images.githubusercontent.com/30100720/174736769-633267fb-fed2-4b98-af5c-be35c5625206.png)
 
