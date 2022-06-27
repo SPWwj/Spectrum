@@ -2,7 +2,7 @@
 Demo Website: https://spectrumx.azurewebsites.net/
 
 # Poster
-![5262](https://user-images.githubusercontent.com/30100720/175960167-eaa81852-18fa-4cb9-8ab7-aab2590bdc5c.png)
+![5262](https://user-images.githubusercontent.com/30100720/175971095-3e603ec7-565a-4ffc-9ef0-f6643eb81645.png)
 
 # Proposed Level of Achievement
 Apollo 11
