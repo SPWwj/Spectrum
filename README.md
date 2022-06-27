@@ -1,6 +1,9 @@
 # Spectrum
 Demo Website: https://spectrumx.azurewebsites.net/
 
+# Poster
+![5262](https://user-images.githubusercontent.com/30100720/175960167-eaa81852-18fa-4cb9-8ab7-aab2590bdc5c.png)
+
 # Proposed Level of Achievement
 Apollo 11
 
