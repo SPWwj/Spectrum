@@ -1,7 +1,7 @@
 # Spectrum
 Demo Website: https://spectrumx.azurewebsites.net/
-* Outbound SMTP connection via port 25 is completely blocked in Azure, Hence email function will not work on demo website.
-* to get the project run, download the repo and run on localhost 
+* Outbound SMTP connection via port 25 is completely blocked in Azure, hence email function will not work on demo website.
+* to get the project run, download the repo and run on localhost with latest dotnet SDK, appsettings.json required.
 * (Can be solve using SendGrid)
 
 # Poster
