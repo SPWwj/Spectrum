@@ -1,7 +1,7 @@
 # Spectrum
 Demo Website: https://spectrumx.azurewebsites.net/
 * Outbound SMTP connection via port 25 is completely blocked in Azure, hence email function will not work on demo website.
-* to get the project run, download the repo and run on localhost with latest dotnet SDK, appsettings.json required.
+* to get the project run, download the repo and run on localhost with latest dotnet SDK, appsettings.json required. IP address required(SQL Server Whitelist protected)
 * (Can be solve using SendGrid)
 * Web notfication for iOS will only be support after 2023 (iOS 16 Bringing Support for Web Push Notifications Next Year)
 
