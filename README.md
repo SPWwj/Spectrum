@@ -83,8 +83,11 @@ By M3
  1) Testing
  2) Documentation
  3) Improve on CSS design
- 4) Exploring 
-      - (Current Pager System + IOT) -> (Extension NFC Smartphone) 
+
+# Exploring 
+  1) (Current Pager System + IOT) -> (Extension NFC Smartphone) 
+  2) Online Order
+    -Use data to recommend most efficient food or shop with less order, maximize throughput of a hawker, benifit for new stalls 
 # Service Flowchart
 ![services](https://user-images.githubusercontent.com/30100720/174736769-633267fb-fed2-4b98-af5c-be35c5625206.png)
 
