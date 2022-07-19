@@ -1,5 +1,12 @@
 # Spectrum
 Demo Website: https://spectrumx.azurewebsites.net/
+* Outbound SMTP connection via port 25 is completely blocked in Azure, hence email function will not work on demo website.
+* to get the project run, download the repo and run on localhost with latest dotnet SDK, appsettings.json required. IP address required(SQL Server Whitelist protected)
+* (Can be solve using SendGrid)
+* Web notfication for iOS will only be support after 2023 (iOS 16 Bringing Support for Web Push Notifications Next Year)
+
+# Poster
+![5262](https://user-images.githubusercontent.com/30100720/176193721-6a20df58-de86-47b0-82db-5aae1ff55fc1.png)
 
 # Proposed Level of Achievement
 Apollo 11
@@ -70,13 +77,18 @@ Aim for M1:
  4) Receipt Generation Dashboard : Done
  
 By M2:
- 1) Integrate all M1 features into 1 complete app.
+ 1) Integrate all M1 features into 1 complete app. （Done）
 
 By M3 
- 1) Scale
- 2) Testing
- 3) Documentation
- 4) Improve on CSS design
+ 1) Testing
+ 2) Documentation
+ 3) Improve on CSS design
+
+# Exploring 
+  1) (Current Pager System + IOT) -> (Extension NFC Smartphone) 
+  2) Online Order 
+      * Use data to recommend the most efficient food or shop with less order, maximize throughput of a hawker, benefit for new stalls
+      * Long queue at popular stall block less popular stall, reduce less popular stall profit.
 
 # Service Flowchart
 ![services](https://user-images.githubusercontent.com/30100720/174736769-633267fb-fed2-4b98-af5c-be35c5625206.png)
