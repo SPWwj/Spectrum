@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Text.Json;
+
 namespace Spectrum.Shared.Services.Email
 {
     public class EmailService : IEmailService
@@ -14,6 +16,38 @@ namespace Spectrum.Shared.Services.Email
         {
             _mailConfig = mailConfig;
         }
+
+
+        public async Task<string> SendEmailByAPI(string toEmail ,string subject , EventModel eventModel)
+        {
+            // requires using System.Net.Http;
+            // requires using System.Net.Http;
+            var client = new HttpClient();
+            // requires using System.Text.Json;
+            //                    new EventModel { Id = 1, Subject = "Your Order is Ready to Collect", StartTime = DateTime.Now, EndTime = DateTime.Now, EmployeeId = 1 });
+
+            var jsonData = JsonSerializer.Serialize(new
+            {
+                email = toEmail ,
+                subject = subject,
+                msg =  eventModel.Subject,
+                startTime = eventModel.StartTime.ToString("MM/dd/yyyy hh:mm tt"),
+                endTime = eventModel.EndTime.ToString("MM/dd/yyyy hh:mm tt"),
+                location = "Spectrum Store",
+                description = "Your order is ready to collect at Spectrum Store",
+                itemId = eventModel.Id
+
+            });
+
+
+            HttpResponseMessage result = await client.PostAsync(
+                // Requires DI configuration to access app settings. See https://docs.microsoft.com/azure/app-service/configure-language-dotnetcore#access-environment-variables
+                _mailConfig.LogicAppApi,
+                new StringContent(jsonData, Encoding.UTF8, "application/json"));
+
+            return result.StatusCode.ToString();
+        }
+
 
         public async Task<string> SendEmailAsync(string ToEmailName, string Subject, EventModel Data)
         {

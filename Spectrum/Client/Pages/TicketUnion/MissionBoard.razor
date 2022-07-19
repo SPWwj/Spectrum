@@ -130,7 +130,10 @@ else
     {
 
         m.Status = m.Status == Status.Done ? Status.Preparing : Status.Done;
-        await SendWebNotification(m.UUID);
+        if (m.Status == Status.Done)
+        {
+            await SendWebNotification(new EmailMission() { UUID = m.UUID, ID = m.Name ,StartTime = m.StartTime , EndTime = DateTime.Now });
+        }
         if (hubConnection is not null)
         {
 
@@ -253,9 +256,9 @@ else
         }
 
     }
-    public async Task SendWebNotification(string missionId)
+    public async Task SendWebNotification(EmailMission emailMission)
     {
-        var response = await Http.GetAsync("/notifications/send/" + missionId);
+        var response = await Http.PostAsJsonAsync("/notifications/send" , emailMission);
         response.EnsureSuccessStatusCode();
     }
 

@@ -17,7 +17,7 @@
                 <h5> Caller ID: @Mission!.Name </h5>
                 <p>Status: @Mission.Status</p>
                 <input @bind="emailAddress" />
-                <button @onclick="SubEmail">Send Mail</button>
+                <button @onclick="SubEmail" disabled="@sendBtn">Send Mail</button>
 
             </div>
         </div>
@@ -36,6 +36,8 @@
 </div>
 
 @code {
+    private bool sendBtn = false;
+    private string sendMsg = "Send Mail";
     [Parameter]
     public Mission? Mission { get; set; }
     [Parameter]
@@ -97,6 +99,8 @@
 
     public async Task SubEmail()
     {
+        sendBtn = true;
+        sendMsg = "Subscribed";
         var response = await Http.PostAsJsonAsync("/notifications/email", new Order()
         {
             Id = Guid.NewGuid().ToString(),

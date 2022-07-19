@@ -50,17 +50,19 @@ namespace Spectrum.Server.Controllers
         //    return Ok(notificationSubscription);
 
         //}
-        [HttpGet("/notifications/send/{missionId}")]
-        public async Task Trigger(string missionId)
+
+
+        [HttpPost("/notifications/send")]
+        public async Task Trigger(EmailMission emailMission)
         {
             // In the background, send push notifications if possible
-            var orders = _db.Order.Where(id => id.MissionUUID == missionId).ToList();
+            var orders = _db.Order.Where(id => id.MissionUUID == emailMission.UUID).ToList();
             foreach (var order in orders)
             {
                 if (_Email.IsValidEmail(order.Email))
                 {
-                    await _Email.SendEmailAsync(order.Email, "Hello From Spectrum",
-                    new EventModel { Id = 1, Subject = "Testing", StartTime = DateTime.Now, EndTime = DateTime.Now, EmployeeId = 1 });
+                    await _Email.SendEmailByAPI(order.Email, "Hello From Spectrum",
+                    new EventModel { Id = Convert.ToInt32(emailMission.ID), Subject = "Your Order is Ready to Collect", StartTime = emailMission.StartTime, EndTime = emailMission.EndTime, EmployeeId = 1 });
                 }
             }
 
