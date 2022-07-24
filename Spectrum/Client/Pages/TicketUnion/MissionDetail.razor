@@ -9,6 +9,7 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@inject PortalState PortalState
 
 <div>
     <div class="property-card mx-auto">
@@ -16,17 +17,20 @@
             <div class="property-image-title">
                 <h5> Caller ID: @Mission!.Name </h5>
                 <p>Status: @Mission.Status</p>
-                <input @bind="emailAddress" />
-                <button @onclick="SubEmail" disabled="@sendBtn">Send Mail</button>
+                <p>Order Time: @Mission.StartTime</p>
+                <p>Web notification subscribed</p>
+
+                <input placeholder="Input your email" @bind="emailAddress" />
+                <button class="btn-email" @onclick="SubEmail" disabled="@sendBtn">Subscribe</button>
 
             </div>
         </div>
-        <div class="property-description">
+ @*       <div class="property-description">
             <h5> Caller ID: @Mission.Name </h5>
             <span>Status: @Mission.Status</span>
             <p>Order Time: @Mission.StartTime</p>
 
-        </div>
+        </div>*@
         <a @onclick="ExitMission">
             <div class="property-social-icons">
                 <span class="oi oi-x"></span>
@@ -118,7 +122,8 @@
     {
         Mission = null;
         MissionChanged.InvokeAsync(Mission);
-
+        PortalState.SelectedMission = null;
+        PortalState.CallRequestRefresh();
     }
 
 }

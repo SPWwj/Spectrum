@@ -14,12 +14,11 @@
 }
 else
 {
-    <h1>@(SpectrumPortal == null ? "None" :  SpectrumPortal.PortalAddress)</h1>
     <div id="mission_board">
 
-        @if (selectedMission != null)
+        @if (PortalState.SelectedMission != null)
         {
-            <MissionDetail @bind-Mission="selectedMission"></MissionDetail>
+            <MissionDetail @bind-Mission="PortalState.SelectedMission"></MissionDetail>
         }
         else
         {
@@ -78,7 +77,6 @@ else
     [CascadingParameter]
     private Task<AuthenticationState>? authenticationStateTask { get; set; }
 
-    private Mission? selectedMission;
     private Person person = new Person("Guest", PersonRole.Adventurer);
     public string? Name { get; set; } = "xyz";
     private HubConnection? hubConnection;
@@ -149,8 +147,10 @@ else
     }
     private void ShowDetail(Mission m)
     {
-        selectedMission = m;
+        PortalState.SelectedMission = m;
         m.ClassName = "";
+        PortalState.CallRequestRefresh();
+
     }
 
     protected override async Task OnInitializedAsync()

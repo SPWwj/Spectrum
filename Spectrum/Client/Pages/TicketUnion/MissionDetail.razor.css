@@ -22,7 +22,7 @@
 /* Top Half of card, image. */
 
 .property-image {
-    height: 16em;
+    height: 28em;
     width: 21em;
     padding: 1em 2em;
     position: Absolute;
@@ -37,7 +37,7 @@
 
 /* Bottom Card Section */
 
-.property-description {
+/*.property-description {
     background-color: #FAFAFC;
     height: 16em;
     width: 21em;
@@ -48,7 +48,7 @@
     transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
     padding: 0.5em 1em;
     text-align: center;
-}
+}*/
 
 /* Social Icons */
 
@@ -85,19 +85,25 @@
         cursor: pointer;
         color:red;
     }
-
+.property-image-title input {
+    text-align :center;
+}
 
 .property-image-title {
     text-align: center;
     position: Relative;
-    top: 30%;
-    opacity: 0;
+    top: 20%;
+    opacity: 1;
     transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
     color: white;
     text-shadow: 0.5px 0 black, 0 1px black, 1px 0 black, 0 0.5px black;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
-.property-card:hover .property-image-title {
+.btn-email {
+    margin-top : 10px;
+}
+/*.property-card:hover .property-image-title {
     opacity: 1;
 }
+*/

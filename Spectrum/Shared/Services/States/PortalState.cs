@@ -22,6 +22,7 @@ namespace Spectrum.Shared.Services.States
         {
             RefreshRequested?.Invoke();
         }
+        public Mission? SelectedMission { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; } = new();
         public List<SpectrumPortal> SearchPortalData { get; set; } = new();

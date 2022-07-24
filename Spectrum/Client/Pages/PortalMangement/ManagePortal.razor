@@ -14,47 +14,43 @@
 else
 {
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <SfQRCodeGenerator Width="400" Height="400" Value="@PortalUrl">
-                    <QRCodeGeneratorDisplayText Text="@PortalState!.SelectedPortal!.Name"></QRCodeGeneratorDisplayText>
-                </SfQRCodeGenerator>
-            </div>
-            <div class="col mportal-detail">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Portal Name</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p>@PortalState!.SelectedPortal!.Name</p>
-                    </div>
+        @if (PortalState.SelectedMission == null)
+        {
+            <div class="row">
+                <div class="col">
+                    <SfQRCodeGenerator Width="400" Height="400" Value="@PortalUrl">
+                        <QRCodeGeneratorDisplayText Text="Client URL"></QRCodeGeneratorDisplayText>
+
+                    </SfQRCodeGenerator>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Portal Address</label>
+                <div class="col mportal-detail">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Portal Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@PortalState!.SelectedPortal!.Name</p>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p>@PortalUrl</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>All Missions</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@PortalState!.MissionCount</p>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>All Missions</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p>@PortalState!.MissionCount</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Active Missions</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p>@PortalState!.MissionActiveCount</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Active Missions</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@PortalState!.MissionActiveCount</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="row">
             <CascadingValue Value="this">
                 <Spectrum.Client.Pages.TicketUnion.MissionBoard SpectrumPortal="PortalState.SelectedPortal"></Spectrum.Client.Pages.TicketUnion.MissionBoard>
@@ -70,7 +66,8 @@ else
 
     public string PortalUrl { get; set; } = string.Empty;
 
-    public void RefreshState() {
+    public void RefreshState()
+    {
         this.StateHasChanged();
     }
 

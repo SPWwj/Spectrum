@@ -11,6 +11,13 @@ html, body {
     font-family: 'system';
 }
 
+/*body {
+    background-image: url("../images/sky.jpg");
+    background-color: black;
+    background-size: cover; 
+
+}*/
+
 td, th {
     text-align: center;
     vertical-align: middle;
@@ -31,7 +38,7 @@ td, th {
 }
 
 .rainbow-text {
-    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    background-image: linear-gradient(to left, violet, black, gray, green, yellow, orange, red);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 0.1px white;
