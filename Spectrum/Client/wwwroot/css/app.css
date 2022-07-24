@@ -11,12 +11,12 @@ html, body {
     font-family: 'system';
 }
 
-/*body {
+body {
     background-image: url("../images/sky.jpg");
     background-color: black;
-    background-size: cover; 
-
-}*/
+    background-size: cover;
+    color: white;
+}
 
 td, th {
     text-align: center;
@@ -29,8 +29,7 @@ td, th {
 }
 
     .icon:hover {
-        color: white;
-        background-color: green;
+        color: green;
     }
 
 .pointer-event {
@@ -113,4 +112,32 @@ a, .btn-link {
 
     .blazor-error-boundary::after {
         content: "An error has occurred."
+    }
+
+.nav-link {
+    color: #dee2e6 !important;
+}
+
+a {
+    color: #dee2e6;
+}
+
+    /* unvisited link */
+    a:link {
+        color: #dee2e6;
+    }
+
+    /* visited link */
+    a:visited {
+        color: #dee2e6;
+    }
+
+    /* mouse over link */
+    a:hover {
+        color: honeydew;
+    }
+
+    /* selected link */
+    a:active {
+        color: beige;
     }
